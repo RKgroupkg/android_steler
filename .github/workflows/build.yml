@@ -22,7 +22,7 @@ jobs:
     - name: Set up Java
       uses: actions/setup-java@v4
       with:
-        java-version: '17'    # Updated from 11 to 17
+        java-version: '17'
         distribution: 'temurin'
 
     - name: Install dependencies
@@ -84,8 +84,8 @@ jobs:
 
     - name: Set up Android SDK components
       run: |
-        export JAVA_HOME="/opt/java/17"
-        export PATH="$JAVA_HOME/bin:$PATH"
+        echo "JAVA_HOME=$JAVA_HOME_17_X64" >> $GITHUB_ENV
+        echo "$JAVA_HOME_17_X64/bin" >> $GITHUB_PATH
         yes | sdkmanager --licenses || true
         sdkmanager --install "platforms;android-33" "build-tools;33.0.0" "ndk;23.1.7779620" "platform-tools"
 
@@ -118,11 +118,12 @@ jobs:
         echo "warn_on_root = 1" >> buildozer.spec
 
     - name: Build Android APK
+      env:
+        JAVA_HOME: ${{ env.JAVA_HOME_17_X64 }}
       run: |
-        export JAVA_HOME="/opt/java/17"
-        export PATH="$JAVA_HOME/bin:$PATH"
         export ANDROID_HOME=/usr/local/lib/android/sdk
         export ANDROID_NDK_HOME=/usr/local/lib/android/sdk/ndk/23.1.7779620
+        export PATH=$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH
         buildozer android debug
 
     - name: Upload APK
