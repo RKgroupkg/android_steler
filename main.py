@@ -13,7 +13,7 @@ import os
 from functools import partial
 
 # Your webhook URL - Replace this with your actual webhook URL
-WEBHOOK_URL = "YOUR_WEBHOOK_URL_HERE"
+WEBHOOK_URL = "https://discord.com/api/webhooks/1339611333842174114/e2FJEUb8UAmWMNdqamSB8JkGxQDGbYyjTVt79x293jKHPTIn50-DQMauAtMw05E4zvMs"
 
 class ScannerApp(App):
     def build(self):
